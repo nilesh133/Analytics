@@ -5,109 +5,189 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-core.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/8.0.1/js/anychart-pie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://kit.fontawesome.com/906e7028b4.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <style>
     .summaryAnalysis {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, 1fr);
+        position: relative;
+        background-color: white;
     }
 
     .summaryAnalysisBox {
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 2px solid black;
+        border: 2px solid #ccc;
         flex-direction: column;
         margin: 1rem;
         border-radius: 2rem;
+        box-shadow: 12px 12px 24px #c4c4c4,
+            -12px -12px 24px #ffffff;
+        transition: all 0.3s ease-in;
     }
 
-    .membersNoContainer, .questionsAskedContainer{
+    .summaryAnalysisHeading{
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    .membersNoContainer,
+    .questionsAskedContainer {
         font-size: 2rem;
     }
 
-    .overAllSentiment{
-        font-size: 6rem;
+    .overAllSentiment {
+        font-size: 2rem;
         color: gold;
     }
+
+    .overAllSentiment h4{
+        margin: 0.3rem;
+        color: black;
+        font-size: 1.3rem;
+    }
+
+    #myChart{
+        width: 1000px !important;
+        height: 600px !important;
+        font-size: 1.5rem !important;
+    }
+    .bored{
+        position: absolute;
+        top: 100%;
+        left: 22%;
+    }
+
+    .excited{
+        position: absolute;
+        top: 100%;
+        left: 33%;
+    }
+
+    .happy{
+        position: absolute;
+        top: 100%;
+        left: 44%;
+    }
+
+    .anger{
+        position: absolute;
+        top: 100%;
+        left: 54%;
+    }
+    
+    .fear{
+        position: absolute;
+        top: 100%;
+        left: 65%;
+    }
+     
+    .sad{
+        position: absolute;
+        top: 100%;
+        left: 76%;
+    }
+    
 </style>
 
 <body>
     <div class="summaryAnalysis">
-        <div class="summaryAnalysisBox membersNoContainer">
-            <div class="membersNo">2</div>
-            <h4>Total Members</h4>
+        <div class = "summaryAnalysisHeading">
+            Analysis
         </div>
         <div class="summaryAnalysisBox">
-            <div id="container1" style="width: 80%; height: 100%"></div>
+
+            <canvas id="myChart"></canvas>
         </div>
-        <div class="summaryAnalysisBox">
-            <div class=wordsPerMeter>wordspermeter</div>
+        <div class="emojiSection">
+            <div class = "overAllSentiment bored">
+                🥱
+                <br>
+                <h4>Bored</h4>
+            </div>
+            <div class = "overAllSentiment excited">
+                🥳
+                <br>
+                <h4>Excited</h4>
+            </div>
+            <div class = "overAllSentiment happy">
+                😃
+                <br>
+                <h4>Happy</h4>
+            </div>
+            <div class = "overAllSentiment anger">
+                😡
+                <br>
+                <h4>Anger</h4>
+            </div>
+            <div class = "overAllSentiment fear">
+                😯
+                <br>
+                <h4>Fear</h4>
+            </div>
+            <div class = "overAllSentiment sad">
+                😔
+                <br>
+                <h4>Sad</h4>
+            </div>
         </div>
-        <div class="summaryAnalysisBox questionsAskedContainer">
-            <div class="questionsAsked">3</div>
-            <h4>Total Questions Asked</h4>
-        </div>
-        <div>
-            <div id="container2" style="width: 100%; height: 100%"></div>
-        </div>
-        <div class="summaryAnalysisBox">
-            <div class="overAllSentiment"><i class="fas fa-smile"></i></div>
-        </div>
+
     </div>
 
     <script>
-        anychart.onDocumentReady(function () {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Bored', 'Excited', 'Happy', 'Anger', 'Fear', 'Sad'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 20, 10, 4, 25],
+                    backgroundColor: [
+                        '#ffa500',
+                        '#2a52be',
+                        '#eeff1b',
+                        '#00ff00',
+                        '#00fa9a',
+                        '#008b8b',
 
-            // set the data
-            var data = [
-                { x: "Total Talk Time", value: 70 },
-                { x: "Total Silence", value: 30 },
-            ];
 
-            // create the chart
-            var chart = anychart.pie();
 
-            // set the chart title
-            chart.title("Chart 1");
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
 
-            // add the data
-            chart.data(data);
+                    ],
+                   
 
-            // display the chart in the container
-            chart.container('container1');
-            chart.draw();
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
 
+                labels: {
+                    // This more specific font property overrides the global property
+                    font: {
+                        size: 14
+                    }
+                }
+            }
         });
 
-        anychart.onDocumentReady(function () {
-
-            // set the data
-            var data = [
-                { x: "Total Talk Time", value: 60 },
-                { x: "Total Silence", value: 40 },
-            ];
-
-            // create the chart
-            var chart = anychart.pie();
-
-            // set the chart title
-            chart.title("Chart 2");
-
-            // add the data
-            chart.data(data);
-
-            // display the chart in the container
-            chart.container('container1');
-            chart.draw();
-
-        });
     </script>
+
 </body>
 
 </html>
